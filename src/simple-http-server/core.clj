@@ -1,10 +1,7 @@
 (ns simple-http-server.core
   (:require [org.httpkit.server :as server]
-            [clojure.test :refer :all]))
-
-(defn d [arg]
-  (prn arg)
-  arg)
+            [clojure.test :refer :all]
+            [clojure.tools.logging :as log]))
 
 (defn health-check [req]
   {:status  200
@@ -21,10 +18,13 @@
 (defn enrich [req])
 
 (defn routing [req]
-  (d (case (:uri (d req))
-       "/health-check" (health-check req)
-       "/docs" (docs req)
-       "/enrich" (enrich req))))
+  (log/info "incoming request " req)
+  (let [response (case (:uri req)
+                   "/health-check" (health-check req)
+                   "/docs" (docs req)
+                   "/enrich" (enrich req))]
+    (log/info "response " response)
+    response))
 
 (defn main [arg]
   (server/run-server #'routing {:port arg}))
