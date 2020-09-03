@@ -1,6 +1,10 @@
 (ns simple-http-server.core-test
-  (:require [simple-http-server.core :as sut]
-            [clojure.test :as t]))
+  (:require [clojure.test :refer :all]
+            [simple-http-server.core :as sut]))
 
-(t/deftest simple-test
-  (t/is (= (:status (sut/health-check {})) 200)))
+(deftest simple-test
+  (testing "replies"
+    (is (= (:status (sut/health-check {})) 200))
+    (is (= (sut/enrich {}) nil)))
+  (testing "routing"
+    (is (= (:body (sut/routing {:uri "/health-check"})) ""))))

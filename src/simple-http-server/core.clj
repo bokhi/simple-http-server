@@ -14,8 +14,7 @@
 (defn docs [req]
   {:status  200
    :headers {"Content-Type" "texhtml"}
-   :body    ;; (slurp "/path/index.html")
-   (slurp "/home/boki/clojure/kaka/assets/index.html")
+   :body (slurp "/home/boki/clojure/kaka/assets/index.html")
    ;; (slurp "http://clojuredocs.org")
    })
 
@@ -40,11 +39,3 @@
   (main 8885)
 
   )
-
-(deftest simple-test
-  (testing "replies"
-    (is (= (:status (health-check {})) 200))
-    (is (= (enrich {}) nil)))
-  (testing "routing"
-    (is (= (:body (routing {:uri "/health-check"})) ""))))
-
